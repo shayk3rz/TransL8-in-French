@@ -13,7 +13,7 @@ FILERT=/tmp/transl83-$$
 
 GETTEXT="gettext -d transl8_ui"
 
-curl -s "http://semes-olla.rhcloud.com/words?Swadesh/English.py" | paste - - - - - > $FILERT
+curl -s "http://semes-olla.rhcloud.com/words?Swadesh/English.py" | - - - - - > $FILERT
 #to show the user all the words of the program (207 words exactly) with their number
 
 if [ -r ~/.transl8.conf ]
