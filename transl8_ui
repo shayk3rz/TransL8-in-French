@@ -1,0 +1,79 @@
+#!/bin/sh
+
+HOST=localhost
+
+TRANSL8=transl8
+
+PORT=1245
+
+FILE1=/tmp/transl81-$$
+FILE2=/tmp/transl82-$$
+ERROR=/tmp/transl8-err-$$
+FILERT=/tmp/transl83-$$
+
+GETTEXT="gettext -d transl8_ui"
+
+curl -s "http://semes-olla.rhcloud.com/words?Swadesh/English.py" | paste - - - - - > $FILERT
+#to show the user all the words of the program (207 words exactly) with their number
+
+if [ -r ~/.transl8.conf ]
+then
+	. ~/.transl8.conf
+elif [ -r /etc/transl8.conf ]
+then
+	. /etc/transl8.conf
+fi
+
+which gdialog 2> /dev/null && DIALOG=gdialog || DIALOG=dialog
+
+help () {
+        echo "Usage: $0 [ host [port] | --help ]"
+}
+
+end () {
+	rm -f $FILE1 $FILE2 $ERROR
+	exit
+}
+
+if [ $# -eq 1 ]
+then
+        if [ $1 -eq '--help' ]
+        then
+                help
+                exit -1
+        else
+                HOST=$1
+        fi
+elif [ $# -eq 2 ]
+then
+        PORT=$2
+fi
+
+if [ $# -ge 1 -o `basename $0` = 'ntransl8_ui' ]
+then
+	if [ $HOST -a $PORT ]
+	then
+	        TRANSL8="nc $HOST $PORT"
+	else
+		echo "Set HOST and PORT please"
+		exit -2
+	fi
+fi
+
+while true
+do
+	$DIALOG --inputbox "`cat $FILERT`\\n\\n`$GETTEXT \"Which word to translate? Enter its number =):\"`" 10 39 2> $FILE1 || end
+	curl -s "http://semes-olla.rhcloud.com/word?`cat $FILE1`&Swadesh/Romance/French.py" > $FILE2
+#pasting the number given by user to FILE2
+	if [ -n $FILE2 ]
+	then
+		MSG="`$GETTEXT \"The result in French is: \"` `cat $FILE2`\\n\\n`$GETTEXT \"Continue or not?\"`"
+	        $DIALOG --yesno "$MSG" 8 22 || end
+
+	else # [ -s $ERROR ]
+	 #  then
+		MSG="`$GETTEXT \"Error:\"`\\n\\n`cat $ERROR`\\n\\n`$GETTEXT \"Continue or not?\"`"
+		$DIALOG --yesno "$MSG" 14 38 || end
+		
+	fi
+done

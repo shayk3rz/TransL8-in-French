@@ -1,0 +1,11 @@
+# default: on
+# description: Welcome to the server to transl8 an English word into a French word
+service transl8
+{
+	flags		= REUSE
+	socket_type	= stream        
+	wait		= no
+	user		= nobody
+	server		= transl8/TransL8-in-French/transl8
+	disable		= no
+}

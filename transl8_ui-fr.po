@@ -1,0 +1,24 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: transl8_ui:24
+msgid "Which word to translate? Enter its number =)"
+msgstr "Que voulez-vous traduire? Entrez le numéro correspondant:"
+
+#: transl8_ui:28
+msgid "The result in French is:"
+msgstr "Le résultat en Français est:"
+
+#: transl8_ui:28 transl8_ui:31
+msgid "Continue or not?"
+msgstr "Continuer ou pas?"
+
+#: transl8_ui:31
+msgid "Error:"
+msgstr "Erreur:"
