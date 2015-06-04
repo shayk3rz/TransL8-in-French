@@ -2,8 +2,12 @@
 
 # You can try the program TransL8-in-French with:
 
-# sh transl8
+sh transl8
 
-# sh transl8_ui
+sh transl8_ui
+
+# Install it with:
+
+make install
 
 
